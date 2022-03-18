@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="true"
+        android:icon="@mipmap/icon_shorcurt"
+        android:shortcutDisabledMessage="@string/static_message"
+        android:shortcutId="static1"
+        android:shortcutLongLabel="@string/static_long_label"
+        android:shortcutShortLabel="@string/static_short_label">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.linjunhao.netdemo.exoplayer.VideoPlayerActivity"
+            android:targetPackage="com.linjunhao.netdemo" />
+    </shortcut>
+
+</shortcuts>

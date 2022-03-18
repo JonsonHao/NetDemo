@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">NetDemo</string>
+    <string name="static_long_label">强力卸载App</string>
+    <string name="static_short_label">强力卸载</string>
+    <string name="static_long_label_2">强力App</string>
+    <string name="static_short_label_2">强力</string>
+    <string name="static_message">static shortcut disabled message</string>
+</resources>
