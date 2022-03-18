@@ -3,6 +3,7 @@ package com.linjunhao.arouter_compiler;
 import com.google.auto.service.AutoService;
 import com.linjunhao.arouter_annotation.ARouter;
 import com.squareup.javapoet.ClassName;
+import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
@@ -104,11 +105,30 @@ public class ARouterProcessor extends AbstractProcessor {
                     .addStatement("this.$N = $N", "greeting", "greeting")
                     .build();
 
-            String className = element.getSimpleName() + "$$$HelloWorld";
+            // try/catch/finally
+            MethodSpec tryCatch = MethodSpec.methodBuilder("tryCatch")
+                    .addModifiers(Modifier.PUBLIC)
+                    .beginControlFlow("try")
+                    .addStatement("throw new $T($S)", Exception.class, "Failed")
+                    .nextControlFlow("catch ($T e)", Exception.class)
+                    .addStatement("e.printStackTrace()")
+                    .nextControlFlow("finally")
+                    .addStatement("$T.out.println($S)", System.class, "do something")
+                    .endControlFlow()
+                    .build();
+
+            // 属性
+            FieldSpec android = FieldSpec.builder(String.class, "android")
+                    .addModifiers(Modifier.PRIVATE, Modifier.FINAL)
+                    .initializer("$S", "android")
+                    .build();
+
+            String className = "HelloWorldDemo";
             TypeSpec helloWorld = TypeSpec.classBuilder(className)
                     .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
                     // 添加属性
                     .addField(String.class, "greeting", Modifier.PRIVATE, Modifier.FINAL)
+                    .addField(android)
                     .addMethod(main)
                     .addMethod(computeRange("sum0to20", 0, 20, "+"))
                     .addMethod(computeRange("sum10to15", 10, 15, "*"))
@@ -116,6 +136,7 @@ public class ARouterProcessor extends AbstractProcessor {
                     .addMethod(beyond)
                     .addMethod(flux)
                     .addMethod(constructor)
+                    .addMethod(tryCatch)
                     .build();
 
             // 生成类
@@ -128,7 +149,7 @@ public class ARouterProcessor extends AbstractProcessor {
                 e.printStackTrace();
             }
         }
-        return false;
+        return true;
     }
 
     private MethodSpec computeRange(String name, int from, int to, String op) {

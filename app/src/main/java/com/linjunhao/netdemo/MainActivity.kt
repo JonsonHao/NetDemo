@@ -26,6 +26,7 @@ import com.linjunhao.netdemo.exoplayer.VideoPlayerActivity
 import com.linjunhao.netdemo.filescan.FileScan
 import com.linjunhao.netdemo.netstat.NetStatsManager
 import com.linjunhao.netdemo.netstat.getFileSizeDescription
+import com.linjunhao.netdemo.tts.TTSActivity
 import com.linjunhao.netdemo.util.extention.singleClick
 import com.linjunhao.netdemo.webview.WebViewActivity
 import com.permissionx.guolindev.PermissionX
@@ -44,7 +45,6 @@ const val PATTERN = "###.0"
 const val GB = "GB"
 const val MB = "MB"
 val enLocale =  Locale(LANGUAGE, COUNTRY)
-@ARouter
 class MainActivity : AppCompatActivity() {
 
     private val speedJob: Job by lazy {
@@ -67,6 +67,12 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btn_second).setOnClickListener {
             Intent(this, VideoPlayerActivity::class.java).apply {
+                startActivity(this)
+            }
+        }
+
+        findViewById<Button>(R.id.btn_tts).setOnClickListener {
+            Intent(this, TTSActivity::class.java).apply {
                 startActivity(this)
             }
         }
