@@ -5,6 +5,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,14 +25,17 @@ public class TTSActivity extends AppCompatActivity implements View.OnClickListen
 
 
     private TextToSpeech mSpeech = null;//创建自带语音对象
+    private EditText editText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tts);
         findViewById(R.id.btn_play).setOnClickListener(this);
+        editText = findViewById(R.id.edit_content);
         initTTS();
     }
+
 
     private void initTTS() {
         //实例化自带语音对象
@@ -40,7 +44,7 @@ public class TTSActivity extends AppCompatActivity implements View.OnClickListen
             public void onInit(int status) {
                 if (mSpeech != null) {
                     int isSupportChinese = mSpeech.isLanguageAvailable(Locale.CHINESE);//是否支持中文
-                    mSpeech.getMaxSpeechInputLength();//最大播报文本长度
+                    Log.d("ljh", "最大播报文本长度：" + mSpeech.getMaxSpeechInputLength());//最大播报文本长度
 
                     if (isSupportChinese == TextToSpeech.LANG_AVAILABLE) {
                         int setLanRet = mSpeech.setLanguage(Locale.CHINESE);//设置语言
@@ -59,17 +63,17 @@ public class TTSActivity extends AppCompatActivity implements View.OnClickListen
         mSpeech.setOnUtteranceProgressListener(new UtteranceProgressListener() {
             @Override
             public void onStart(String utteranceId) {
-                Log.d("ljh", "onStart");
+                Log.d("ljh", "语音开始播放");
             }
 
             @Override
             public void onDone(String utteranceId) {
-                Log.d("ljh", "onDone");
+                Log.d("ljh", "语音播放完成");
             }
 
             @Override
             public void onError(String utteranceId) {
-                Log.d("ljh", "onError");
+                Log.d("ljh", "语音播放失败");
             }
         });
 
@@ -78,17 +82,17 @@ public class TTSActivity extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_play) {
-            startAuto("今日天气晴，");
+            startAuto(editText.getText().toString());
         }
     }
 
     private void startAuto(String data) {
         // 设置音调，值越大声音越尖（女生），值越小则变成男声,1.0是常规
-        mSpeech.setPitch(1.0f);
+        mSpeech.setPitch(1f);
         // 设置语速
-        mSpeech.setSpeechRate(0.5f);
+        mSpeech.setSpeechRate(0.8f);
         mSpeech.speak(data,//输入中文，若不支持的设备则不会读出来
-                TextToSpeech.QUEUE_FLUSH, null);
+                TextToSpeech.QUEUE_FLUSH, null, "test");
 
     }
 
